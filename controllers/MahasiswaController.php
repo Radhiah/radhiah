@@ -19,17 +19,21 @@ class MahasiswaController extends \yii\web\Controller
 
     public function actionTambah()
     {
-        $Mahasiswa = new Mahasiswa;
-        $Mahasiswa->nim = '60200121120';
-        $Mahasiswa->nama = 'muiz';
-        $Mahasiswa->jurusan = 'TI';
-        if ($Mahasiswa->save()) {
-            return $this->redirect(['index']);
+        $model = new mahasiswa;
+        if ($model->load($this->request->post())){
+            if ($model->save()) {
+                return $this->redirect([
+                    'view',
+                    'id' => $model->id
+                ]);
+            }
         }
         else {
-            var_dump($Mahasiswa->getErrors());
-            die();
+           $model->loadDefaultValues();
         }
+        return $this->render('create', [
+            'model' => $model
+        ]);
 
     }
 
@@ -58,6 +62,14 @@ class MahasiswaController extends \yii\web\Controller
             die();
         }
 
+    }
+
+    public function actionView($id)
+    {
+        $mahasiswa =  Mahasiswa::findOne($id);
+        if ($mahasiswa !== null) {
+         return $this->render('view', ['model' => $mahasiswa]);
+        }
     }
 
 }

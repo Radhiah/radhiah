@@ -1,26 +1,32 @@
 <?php
-    use yii\grid\GridView;
     use yii\helpers\Html;
-    use yii\grid\ActionColumn;
-    use yii\helpers\url;
+    use yii\grid\Gridview;
+    use yii\data\ActiveDataProvider;
     use app\models\Mahasiswa;
+    use yii\helpers\Url;
+    use yii\grid\ActionColumn;
+
+
 ?>
-<?= Html::a('Mahasiswa Baru', ['Barang/create'], ['class' => 'btn btn-primary']) ?>
+
+<?= Html::a('Mahasiswa Baru',['mahasiswa/tambah'],['class'=>'btn btn-primary']) ?>
+
 <?=
-    GridView::widget([
-        'dataProvider'  => $dataProvider,
+    Gridview::widget([
+        'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'id',
             'nim',
             'nama',
-            'jurusan',
+            'kelas',
+            'status',
             [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Mahasiswa $model){
-                    return url::toRoute([$action,'id' => $model->id]);
+                'class' => ActionColumn::class,
+                'urlCreator' => function ($action, $model, $key, $index) {
+                    return Url::toRoute([$action, 'id' => $model->id]);
                 }
-            ],
+            ]
         ]
     ])
 ?>

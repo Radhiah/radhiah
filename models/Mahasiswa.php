@@ -5,15 +5,36 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "mahasiswa028".
+ * This is the model class for table "mahasiswa".
  *
  * @property int $id
  * @property string $nim
  * @property string $nama
- * @property string $jurusan
+ * @property string $kelas
  */
 class Mahasiswa extends \yii\db\ActiveRecord
 {
+    const A = 'Kelas A';
+    const B = 'KELAS B';
+    const C = 'kelas C';
+    const D = 'Kelas D';
+
+    const KELAS = [
+        self::A => 'Kelas A',
+        self::B => 'Kelas B',
+        self::C => 'Kelas C',
+        self::D => 'Kelas D',
+
+    ];
+
+    const LULUS = 1;
+    const GAGAL = 0;    
+
+    const STATUS = [
+        '1' => 'LULUS',
+        '0' => 'GAGAL',
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -28,11 +49,12 @@ class Mahasiswa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nim', 'nama', 'jurusan'], 'required'],
-            [['nim'], 'string', 'max' => 15],
-            [['nama'], 'string', 'max' => 50],
-            [['jurusan'], 'string', 'max' => 255],
-            [['nim'], 'unique'],
+            [['nim', 'nama', 'kelas','status'], 'required'],
+            [['nim', 'kelas'], 'string', 'max' => 20],
+            [['nama'], 'string', 'max' => 255],
+            [['status'], 'string', 'max' => 255],
+            [['kelas'], 'in', 'range' => [self::A, self::B, self::C, self::D]],
+
         ];
     }
 
@@ -43,9 +65,10 @@ class Mahasiswa extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'nim' => 'Nim',
-            'nama' => 'Nama',
-            'jurusan' => 'Jurusan',
+            'nim' => 'No. Induk Mahasiswa',
+            'nama' => 'Nama Mahasiswa',
+            'kelas' => 'Kelas',
+            'status' => 'Status',
         ];
     }
 }
